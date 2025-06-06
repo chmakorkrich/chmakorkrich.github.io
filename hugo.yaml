@@ -17,7 +17,7 @@ minify:
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
   title: Mony's Blog
-  description: "Mony's Blog is a personal blog that showcases my journey in the world of cybersecurity, programming, and technology. It features articles on various topics including web security, mobile security, network security, and more. The blog serves as a portfolio of my work and a platform to share knowledge with others."
+  description: "Welcome to Mony's Blog - A personal journey through cybersecurity, programming, and technology. Here I share my experiences and insights in web security, mobile security, network security, and more. This blog serves as both my portfolio and a platform to share knowledge with the community."
   keywords: [Blog, Portfolio, PaperMod, CTF, HTB, THM, cybersecurity]
   author: YUN Mony
   # author: ["Me", "You"] # multiple authors
