@@ -1,0 +1,151 @@
+baseURL: "https://chmakorkrich.github.io/"
+title: Mony's Blog
+pagination:
+  pagerSize: 5
+theme: "PaperMod"
+
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+
+# googleAnalytics: UA-123-45
+
+minify:
+  disableXML: true
+  minifyOutput: true
+
+params:
+  env: production # to enable google analytics, opengraph, twitter-cards and schema.
+  title: Mony's Blog
+  description: "Mony's Blog is a personal blog that showcases my journey in the world of cybersecurity, programming, and technology. It features articles on various topics including web security, mobile security, network security, and more. The blog serves as a portfolio of my work and a platform to share knowledge with others."
+  keywords: [Blog, Portfolio, PaperMod, CTF, HTB, THM, cybersecurity]
+  author: YUN Mony
+  # author: ["Me", "You"] # multiple authors
+  DateFormat: "January 2, 2006"
+  defaultTheme: auto # dark, light
+  disableThemeToggle: false
+
+  ShowReadingTime: true
+  ShowShareButtons: true
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: false
+  ShowWordCount: true
+  ShowRssButtonInSectionTermList: true
+  UseHugoToc: true
+  disableSpecial1stPost: false
+  disableScrollToTop: false
+  comments: false
+  hidemeta: false
+  hideSummary: false
+  showtoc: false
+  tocopen: false
+
+  assets:
+    # disableHLJS: true # to disable highlight.js
+    # disableFingerprinting: true
+    favicon: "/icon.png"
+    favicon16x16: "/icon.png"
+    favicon32x32: "/icon.png"
+    apple_touch_icon: "/icon.png"
+    safari_pinned_tab: "/icon.png"
+
+  customCSS:
+    - css/extended/custom.css
+
+  label:
+    text: "Home"
+    icon: /gojo.jpeg
+    iconHeight: 43
+
+  # profile-mode
+
+  # home-info mode
+  homeInfoParams:
+    Title: "Hi there! \U0001F44B"
+    Content: I’m Mony — known as chmakorkrich!
+      I’m a passionate developer, cybersecurity enthusiast with a deep love for all things tech.
+      I enjoy exploring the world of computers (no surprise!) and specialize in cybersecurity,
+      with a particular focus on Web Security, Mobile Security, Network Security.
+  socialIcons:
+    - name: facebook
+      url: "https://www.facebook.com/simp4spidey"
+    - name: telegram
+      url: "https://t.me/imnotmony"
+    - name: x
+      url: "https://x.com/chmakorkrich"
+    - name: reddit
+      url: "https://www.reddit.com/user/yunmony/"
+    - name: github
+      url: "https://github.com/chmakorkrich"
+
+  analytics:
+    google:
+      SiteVerificationTag: "XYZabc"
+    bing:
+      SiteVerificationTag: "XYZabc"
+    yandex:
+      SiteVerificationTag: "XYZabc"
+
+  cover:
+    hidden: false # hide everywhere but not in structured data
+    hiddenInList: true # hide on list pages and home
+    hiddenInSingle: false # hide on single page
+
+  editPost:
+    enable: false
+
+  # for search
+  # https://fusejs.io/api/options.html
+  fuseOpts:
+    isCaseSensitive: false
+    shouldSort: true
+    location: 0
+    distance: 1000
+    threshold: 0.4
+    minMatchCharLength: 0
+    limit: 10 # refer: https://www.fusejs.io/api/methods.html#search
+    keys: ["title", "permalink", "summary", "content"]
+menu:
+  main:
+    - identifier: blog
+      name: Blog
+      url: /posts/
+      weight: 10
+    - identifier: about
+      name: About
+      url: /about/
+      weight: 20
+    - identifier: projects
+      name: Projects
+      url: /projects/
+      weight: 30
+    - identifier: tags
+      name: Tags
+      url: /tags/
+      weight: 40
+    - identifier: supporters
+      name: Supporters
+      url: /supporters/
+      weight: 50
+    - identifier: archives
+      name: Archives
+      url: /archives/
+      weight: 60
+# Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
+pygmentsUseClasses: true
+markup:
+  highlight:
+    noClasses: false # use classes for syntax highlighting
+    codeFences: true
+    guessSyntax: true
+    lineNos: true
+    style: monokai
+  goldmark:
+    renderer:
+      unsafe: true # This allows HTML in Markdown
+  tableOfContents:
+    endLevel: 3
+    ordered: false
+    startLevel: 2

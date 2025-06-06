@@ -1,0 +1,217 @@
+:root {
+  --font-family: "JetBrains Mono", monospace;
+}
+body {
+  font-family: var(--font-family);
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.3px;
+}
+
+/* Supporter Cards */
+.supporter-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+.supporter-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background-color: #111;
+  border: 1px solid #333;
+  border-radius: 8px;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 300px;
+}
+.supporter-avatar img {
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+}
+
+.supporter-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.supporter-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.supporter-amount {
+  font-size: 13px;
+  color: #888;
+}
+
+/* QR Code Card Styling */
+.qr-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 320px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: #111;
+  border: 1px solid #333;
+  border-radius: 8px;
+}
+.qr-container {
+  width: 100%;
+  padding: 1rem;
+}
+.qr-code {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.qr-info {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.qr-info h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.qr-info p {
+  margin: 0.5rem 0 0;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.competition-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+.competition-card {
+  background-color: #111111;
+  border: 1px solid #333;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.competition-card:hover {
+  transform: translateY(-2px);
+}
+
+.competition-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.competition-info {
+  padding: 12px;
+  text-align: center;
+}
+
+.competition-info span {
+  color: #888;
+  font-size: 14px;
+}
+
+/* Certification Grid Styling */
+.certification-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  max-width: 1000px;
+  margin: 20px auto;
+}
+
+.certification-card {
+  background-color: #111;
+  border: 1px solid #333;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: 0.2s ease;
+}
+.certification-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.certification-image {
+  width: 100%;
+  height: 140px;
+  object-fit: contain;
+  display: block;
+  padding: 10px;
+  background-color: #1a1a1a;
+}
+
+.certification-info {
+  padding: 12px;
+  text-align: center;
+  border-top: 1px solid #333;
+}
+
+.certification-info span {
+  color: #888;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.entry-cover {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+.post-entry .entry-cover img,
+.post-single .entry-cover img {
+  max-height: 400px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 8px;
+}
+.post-single .entry-cover img {
+  margin: 20px auto;
+}
+
+.post-title {
+  font-size: 1.6em;
+}
+.post-content h1 {
+  font-size: 1.8em;
+}
+.post-content h2 {
+  font-size: 1.5em;
+}
+.post-content h3 {
+  font-size: 1.3em;
+}
+.post-content p,
+.post-content li {
+  font-size: 14px;
+}
+
+.post-title {
+  font-family: var(--font-family);
+  font-weight: 400;
+}
+
+.post-content {
+  font-family: var(--font-family);
+}
+
+/* Adjust code blocks to match the main font */
+pre,
+code {
+  font-family: var(--font-family) !important;
+}
