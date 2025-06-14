@@ -64,9 +64,10 @@ params:
   homeInfoParams:
     Title: "Hi there! \U0001F44B"
     Content: I’m Mony — known as chmakorkrich!
-      I’m a passionate developer, cybersecurity enthusiast with a deep love for all things tech.
+      I’m a cybersecurity enthusiast and a vibe-coder with a deep love for all things tech.
       I enjoy exploring the world of computers (no surprise!) and specialize in cybersecurity,
-      with a particular focus on Web Security, Mobile Security, Network Security.
+      with a particular focus on Network Security, and now learning about Web Security.
+      I'm not an expertise in this field, i open to all. i am still learning.
   socialIcons:
     - name: facebook
       url: "https://www.facebook.com/simp4spidey"

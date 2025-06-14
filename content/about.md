@@ -29,7 +29,7 @@ hideMeta: true
   <div class="competition-card">
     <img src="/top17.jpg" alt="Top 17" class="competition-image">
     <div class="competition-info">
-      <span>Got top 17 on leaderboard for the first time</span>
+      <span>Top 17 on leaderboard for the first time</span>
     </div>
   </div>
 </div>
