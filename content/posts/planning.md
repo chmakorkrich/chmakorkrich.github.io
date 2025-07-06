@@ -33,12 +33,6 @@ cover:
     # linkFullImages: true
 ---
 
-```python
-# This is a comment
-def greet(name):
-    print(f"Hello, {name}!")
-```
-
 - At the beginning the machine provides us with some credentials admin/0D5oT70Fq13EvB5r with no other details.
 
 ## Initial recon
