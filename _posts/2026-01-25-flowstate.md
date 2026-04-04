@@ -3,6 +3,7 @@ title: "Flowstate"
 date: 2026-01-25
 author: YUN Mony
 description: "my experience about flowstate."
+categories: [Random thoughts]
 tags:
   - mental
   - flowstate

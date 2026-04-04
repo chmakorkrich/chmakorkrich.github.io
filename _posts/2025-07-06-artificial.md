@@ -2,6 +2,7 @@
 title: "HTB: Artificial"
 date: 2025-07-06
 author: YUN Mony
+categories: [Hackthebox]
 description: "Artificial Machine is a retired machine, and its difficulty is easy"
 tags:
   - HTB
