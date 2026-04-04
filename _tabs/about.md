@@ -20,9 +20,6 @@ i spend most of my times learning about offensive security and web apps, along w
 **GitHub:** [chmakorkrich](https://github.com/chmakorkrich)
 
 ### HackTheBox Profile
-
 <a href="https://app.hackthebox.com/users/1644296" target="_blank">
-  <img src="https://www.hackthebox.eu/badge/image/1644296" 
-       alt="HackTheBox Badge" 
-       style="max-width: 100%;" />
+  <img src="https://www.hackthebox.eu/badge/image/1644296" alt="HackTheBox Badge" style="display: block; margin: 0 auto 0 0;" />
 </a>
