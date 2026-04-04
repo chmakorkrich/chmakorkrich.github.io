@@ -1,0 +1,182 @@
+---
+# Front matter to tell Jekyll to process it
+---
+
+@use "main";
+
+/* Custom Red Team Offensive Security Aesthetics - Original Font Edition */
+
+body {
+  /* CRT scanline effect - even more subtle */
+  &::before {
+    content: " ";
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background:
+      linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%),
+      linear-gradient(
+        90deg,
+        rgba(159, 239, 0, 0.005),
+        rgba(0, 255, 0, 0.003),
+        rgba(0, 0, 255, 0.005)
+      );
+    z-index: 9999;
+    background-size:
+      100% 2px,
+      2px 100%;
+    pointer-events: none;
+    opacity: 0.15;
+  }
+
+  /* Subtle vignette */
+  &::after {
+    content: " ";
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: radial-gradient(
+      circle,
+      rgba(0, 0, 0, 0) 70%,
+      rgba(0, 0, 0, 0.3) 100%
+    );
+    z-index: 9998;
+    pointer-events: none;
+  }
+}
+
+/* Orange accent for headers and links */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--heading-color) !important;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  border-bottom: 1px solid rgba(159, 239, 0, 0.2);
+  padding-bottom: 0.2rem;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Compact header sizing */
+h1 {
+  font-size: 1.4rem;
+}
+h2 {
+  font-size: 1.25rem;
+}
+h3 {
+  font-size: 1.1rem;
+}
+
+/* Breadcrumbs and navigation */
+#breadcrumb {
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+/* Post and Page content */
+.post-content,
+.page-content {
+  color: #c4c4c4;
+  line-height: 1.6;
+
+  p,
+  li {
+    margin-bottom: 0.85rem;
+  }
+}
+
+/* Metadata and muted text */
+.post-meta,
+.text-muted {
+  font-size: 0.8rem;
+}
+
+/* Sidebar styling - more industrial */
+#sidebar {
+  border-right: 1px solid rgba(159, 239, 0, 0.1);
+  background-color: #080808;
+
+  #avatar {
+    border: 1px solid rgba(159, 239, 0, 0.2);
+    width: 90px;
+    height: 90px;
+  }
+
+  .site-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+
+  .site-subtitle {
+    font-size: 0.85rem;
+    color: #555;
+  }
+}
+
+/* Post list */
+.post-preview {
+  padding: 0.85rem 0;
+  border-left: 1px solid transparent;
+
+  &:hover {
+    border-left: 1px solid var(--link-color);
+    background: rgba(159, 239, 0, 0.02);
+    padding-left: 0.5rem;
+  }
+
+  .post-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .post-excerpt {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+}
+
+/* Links */
+a {
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #fff !important;
+    background: rgba(159, 239, 0, 0.08);
+  }
+}
+
+/* Custom selection */
+::selection {
+  background: rgba(159, 239, 0, 0.8);
+  color: #000;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0d0d0d;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #222;
+
+  &:hover {
+    background: #9fef00;
+  }
+}
