@@ -1,0 +1,42 @@
+---
+---
+
+/* prettier-ignore */
+@use 'main
+{%- if jekyll.environment == 'production' -%}
+  .bundle
+{%- endif -%}
+';
+
+/* append your custom style below */
+
+/* Import JetBrains Mono for English, and Noto Sans Khmer (as an alternative to Google Sans) */
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans+Khmer:wght@400;700&display=swap");
+
+/* Apply the fonts globally */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.post-title,
+.site-title,
+.panel-heading,
+#topbar-title,
+.label {
+  /* JetBrains Mono will be used for Latin characters, and it will fall back to Noto Sans Khmer for Khmer text */
+  font-family: "Google Sans", sans-serif !important;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace !important;
+}
+
+.post-content {
+  font-size: 0.85rem;
+}
