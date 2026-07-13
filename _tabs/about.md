@@ -12,12 +12,15 @@ i spend most of my times learning about offensive security and web apps, along w
 
 ### Certifications 
 - Certified Penetration Testing Specialist (CPTS)
-- Certified Ethical Hacking (C|EHv13)
+- Certified Ethical Hacking (CEHv13)
 - Certified Red Teaming Analyst
 
 ### Achievements
 - CNCC 2025 (Top 17)
 - Cyber Arena 2026 (Top 30) - Secured to National CTF 2026 
+
+### Side hustle
+- Advent of Cyber 2025 (THM)
 
 **Country:** kh Cambodia
 **Email:** [besgaming15@gmail.com](mailto:besgaming15@gmail.com)
