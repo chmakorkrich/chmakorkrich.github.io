@@ -16,11 +16,12 @@ i spend most of my times learning about offensive security and web apps, along w
 - Certified Red Teaming Analyst
 
 ### Achievements
-- CNCC 2025 (Top 17)
+- CNCC 2025 (Top 17) - individually competition
 - Cyber Arena 2026 (Top 30) - Secured to National CTF 2026 
 
-### Side hustle
+### CTF events
 - Advent of Cyber 2025 (THM)
+- Cyber Apocalypse 2026 (HTB)
 
 **Country:** kh Cambodia
 **Email:** [besgaming15@gmail.com](mailto:besgaming15@gmail.com)
