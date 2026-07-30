@@ -156,6 +156,7 @@ frame-ancestors 'none'
 |`frame-ancestors`|`'none'`|Blocks getting embedded in an `<iframe>`|
 |**Missing**|`base-uri`|You could inject a `<base>` tag (didn't need it here)|
 |**Missing**|`'unsafe-inline'` in script-src|No inline event handlers (`onclick`, `onerror`, etc.)|
+
 **Caught it — that `https://www.googleapis.com` entry is the golden ticket.** Google's Custom Search JSON API takes a `callback` parameter and reflects it right back as valid JavaScript. Basically Google was accidentally helping me smuggle a script past the CSP without even knowing it 
 
 ## 3. time to get my hand dirty
