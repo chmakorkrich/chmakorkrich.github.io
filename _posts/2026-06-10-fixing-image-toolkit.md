@@ -21,8 +21,9 @@ rotate, flip, and everything else still worked fine. The plugin hadn't been upda
 in 9 months, so I knew the issue wasn't a bad plugin update.
 
 ### Investigation
-- Let's do some investigation. 
-I went to the original Github Repository. After exploring and found the `copyImage` method. Here's what it does:
+Let's do some investigation. 
+
+I went to the original github repository. After exploring for a while, i found the `copyImage` method. Here's what it does:
 ![](/assets/img/images/image-toolkit2.webp)
 1. Creates a new `Image` element
 2. Sets `image.crossOrigin = 'anonymous'` — this tells the browser to request
@@ -37,7 +38,7 @@ copying images from external websites, but for local vault images it was never
 needed — the image and the app are on the same origin, so there's no cross-origin
 issue in the first place.
 
-- Since most of our images are store locally. so i wanna make a smart change on this to fix the issue.
+Most of my images are store locally. so i wanna make a smart change on this to fix the issue.
 ### Root Cause
 **Obsidian changed how it serves local resources.** Older versions served local
 vault images as same-origin `file://` or direct paths, so `crossOrigin` was a
@@ -70,7 +71,8 @@ image.src = imgEle.src;
 ```
 Since Image Toolkit is desktop-only (`isDesktopOnly: true`), all vault images
 are local files. No CORS is needed.
-- Or you can change the entire function to still work for external images as well.
+
+Or you can change the entire function to still work for external images as well.
 ```js
     static copyImage(imgEle, width, height) {
         let image = new Image();
@@ -126,7 +128,6 @@ canvas.toBlob((blob) => {
     ...
 });
 ```
-
 I also replaced `image.width`/`image.height` with `image.naturalWidth`/
 `image.naturalHeight` for more reliable canvas sizing, and cleaned up an
 unnecessary `__awaiter` wrapper around the `toBlob` callback.
@@ -138,7 +139,7 @@ the `crossOrigin` line, add a null-check for the blob, and save. Restart
 Obsidian and copying will work again.
 
 #### Testing
-- It worked now.
+Now, It worked as usual.
 ![](/assets/img/images/image-toolkit3.webp)
-- This is my clipboard:
+This is my clipboard `wl-copy` after copying an image:
 ![](/assets/img/images/image-toolkit4.webp)

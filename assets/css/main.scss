@@ -747,16 +747,18 @@ main#main {
   word-break: break-word;
 }
 
-.content pre,
-.content .highlight {
+/* code block wrapper: the header bar and code panel stay the same width */
+.content div.highlighter-rouge {
+  width: max-content;
+  max-width: 100%;
   margin: 1.5em 0;
 }
 
 .content .highlight {
   background: var(--code-bg);
   border: 1px solid var(--code-line);
-  border-radius: 6px;
-  width: max-content;
+  border-radius: 0 0 6px 6px;
+  margin: 0;
   max-width: 100%;
   overflow-x: auto;
 }
@@ -766,7 +768,9 @@ main#main {
   align-items: center;
   justify-content: space-between;
   background: var(--code-bar);
-  border-bottom: 1px solid var(--code-line);
+  border: 1px solid var(--code-line);
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
   padding: 0 14px;
   height: 34px;
 }
@@ -832,18 +836,21 @@ main#main {
 
 .content .highlight table.rouge-table td {
   border: none;
-  padding: 0;
   vertical-align: top;
   background: none;
 }
 
-.content .highlight table.rouge-table th { display: none; }
-
-.content .highlight .rouge-gutter {
+.content .highlight table.rouge-table td.rouge-gutter {
   padding: 16px 0 16px 18px;
   border-right: 1px solid var(--code-line);
   user-select: none;
 }
+
+.content .highlight table.rouge-table td.rouge-code {
+  padding: 0;
+}
+
+.content .highlight table.rouge-table th { display: none; }
 
 .content .highlight .rouge-gutter pre {
   margin: 0;
@@ -854,10 +861,6 @@ main#main {
   background: none;
   text-align: right;
   border: none;
-}
-
-.content .highlight .rouge-code {
-  padding: 0;
 }
 
 .content .highlight .rouge-code pre {
@@ -873,6 +876,7 @@ main#main {
 
 /* bare pre blocks (kramdown emits these when fenced code contains raw HTML) */
 .content pre {
+  margin: 1.5em 0;
   max-width: 100%;
   overflow-x: auto;
 }
@@ -1431,7 +1435,7 @@ main#main {
     font-size: 11px;
     line-height: 1.55;
   }
-  .content .highlight .rouge-gutter { padding: 12px 0 12px 14px; }
+  .content .highlight table.rouge-table td.rouge-gutter { padding: 12px 0 12px 14px; }
   .content .highlight .rouge-code pre { padding: 12px 14px; }
   .content .code-header { height: 30px; padding: 0 12px; }
 
