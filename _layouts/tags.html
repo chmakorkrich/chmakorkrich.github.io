@@ -1,0 +1,20 @@
+---
+layout: page
+# All the Tags of posts.
+---
+
+<div class="tag-cloud">
+  {% assign tags = '' | split: '' %}
+  {% for t in site.tags %}
+    {% assign tags = tags | push: t[0] %}
+  {% endfor %}
+
+  {% assign sorted_tags = tags | sort_natural %}
+
+  {% for t in sorted_tags %}
+    <a class="cloud-item" href="{{ t | slugify | url_encode | prepend: '/tags/' | append: '/' | relative_url }}">
+      {{ t }}
+      <span class="n">{{ site.tags[t].size }}</span>
+    </a>
+  {% endfor %}
+</div>

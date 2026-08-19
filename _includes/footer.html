@@ -1,0 +1,63 @@
+<!-- The Footer -->
+
+<footer class="site-footer" aria-label="Site Info">
+  <div class="wrap">
+    <div class="colophon">
+      <div class="entry">
+        <div class="key">{{ site.data.locales[include.lang].meta | default: 'Document' }}</div>
+        <div class="val">{{ site.title }}</div>
+      </div>
+
+      <div class="entry">
+        <div class="key">Deployment</div>
+        <div class="val">
+          <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a>
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="key">Edition</div>
+        <div class="val">{{ site.time | date: '%Y' }}</div>
+      </div>
+
+      <div class="entry">
+        <div class="key">Set in</div>
+        <div class="val">Space Grotesk &amp; JetBrains Mono</div>
+      </div>
+    </div>
+
+    <div class="foot-note">
+      <span class="left">
+        &copy; <time>{{ site.time | date: '%Y' }}</time>
+        {% if site.social.links %}
+          <a href="{{ site.social.links[0] }}" rel="noopener">{{ site.social.name }}</a>.
+        {% else %}
+          {{ site.social.name }}.
+        {% endif %}
+      </span>
+      <span class="right">
+        {% for entry in site.data.contact %}
+          {%- assign url = null -%}
+          {% case entry.type %}
+            {% when 'github', 'twitter' %}
+              {%- unless site[entry.type].username -%}{%- continue -%}{%- endunless -%}
+              {%- assign url = 'https://' | append: entry.type | append: '.com/' | append: site[entry.type].username -%}
+            {% when 'email' %}
+              {%- unless site.social.email -%}{%- continue -%}{%- endunless -%}
+              {%- assign email = site.social.email | split: '@' -%}
+              {%- capture url -%}javascript:location.href = 'mailto:' + ['{{ email[0] }}','{{ email[1] }}'].join('@'){%- endcapture -%}
+            {% when 'rss' %}
+              {% assign url = '/feed.xml' | relative_url %}
+            {% else %}
+              {% assign url = entry.url %}
+          {% endcase %}
+          {% if url %}
+            <a href="{{ url }}" aria-label="{{ entry.type }}"{% unless entry.noblank %} target="_blank" rel="noopener noreferrer"{% endunless %}>
+              <i class="{{ entry.icon }}"></i>
+            </a>
+          {% endif %}
+        {% endfor %}
+      </span>
+    </div>
+  </div>
+</footer>

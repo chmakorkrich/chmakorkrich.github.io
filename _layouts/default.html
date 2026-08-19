@@ -1,0 +1,44 @@
+---
+layout: compress
+---
+
+<!doctype html>
+
+{% include lang.html %}
+
+<!-- `site.alt_lang` can specify a language different from the UI -->
+<html lang="{{ page.lang | default: site.alt_lang | default: site.lang }}">
+  {% include head.html lang=lang %}
+
+  <body>
+    {% include header.html lang=lang %}
+
+    <div class="wrap">
+      {% include search-results.html lang=lang %}
+
+      <main aria-label="Main Content" id="main">
+        {% if layout.layout == 'default' %}
+          {% include refactor-content.html content=content lang=lang %}
+        {% else %}
+          {{ content }}
+        {% endif %}
+      </main>
+
+      {% include footer.html lang=lang %}
+    </div>
+
+    <aside aria-label="Scroll to Top">
+      <button id="back-to-top" type="button" aria-label="Back to top">
+        <i class="fas fa-angle-up"></i>
+      </button>
+    </aside>
+
+    <div id="mask"></div>
+
+    {% if site.pwa.enabled %}
+      {% include_cached notification.html lang=lang %}
+    {% endif %}
+
+    {% include search-loader.html lang=lang %}
+  </body>
+</html>

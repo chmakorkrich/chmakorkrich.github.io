@@ -1,12 +1,12 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f7f7">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1b1b1e">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f4ee">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#08090c">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta
     name="viewport"
-    content="width=device-width, user-scalable=no initial-scale=1, shrink-to-fit=no, viewport-fit=cover"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover"
   >
 
   {%- capture seo_tags -%}
@@ -73,45 +73,27 @@
   {% include_cached favicons.html %}
 
   <!-- Resource Hints -->
-  {% unless site.assets.self_host.enabled %}
-    {% for hint in site.data.origin.cors.resource_hints %}
-      {% for link in hint.links %}
-        <link rel="{{ link.rel }}" href="{{ hint.url }}" {{ link.opts | join: ' ' }}>
-      {% endfor %}
-    {% endfor %}
-  {% endunless %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <!-- Bootstrap -->
-  {% unless jekyll.environment == 'production' %}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
-  {% endunless %}
+  <!-- Web Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
 
   <!-- Theme style -->
-  <link rel="stylesheet" href="{{ '/assets/css/:THEME.css' | replace: ':THEME', site.theme | relative_url }}?v=3">
-
-  <!-- Web Font -->
-  <link rel="stylesheet" href="{{ site.data.origin[type].webfonts | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
 
   <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="{{ site.data.origin[type].fontawesome.css | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/lib/fontawesome-free/css/all.min.css' | relative_url }}">
 
-  <!-- 3rd-party Dependencies -->
-
-  {% if site.toc and page.toc %}
-    <link rel="stylesheet" href="{{ site.data.origin[type].toc.css | relative_url }}">
+  <!-- Image Popup (lightbox) -->
+  {% if page.layout == 'post' or page.layout == 'page' %}
+    <link rel="stylesheet" href="{{ '/assets/lib/glightbox/glightbox.min.css' | relative_url }}">
   {% endif %}
 
-  {% if page.layout == 'post' or page.layout == 'page' or page.layout == 'home' %}
-    <link rel="stylesheet" href="{{ site.data.origin[type]['lazy-polyfill'].css | relative_url }}">
-  {% endif %}
-
-  {% if page.layout == 'page' or page.layout == 'post' %}
-    <!-- Image Popup -->
-    <link rel="stylesheet" href="{{ site.data.origin[type].glightbox.css | relative_url }}">
-  {% endif %}
-
-  <!-- Scripts -->
-
+  <!-- Theme mode script (runs before paint to avoid FOUC) -->
   <script src="{{ '/assets/js/dist/theme.min.js' | relative_url }}"></script>
 
   {% include js-selector.html lang=lang %}

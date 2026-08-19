@@ -1,0 +1,26 @@
+---
+layout: page
+# The Archives of posts.
+---
+
+{% include lang.html %}
+
+<div class="archives">
+  {% for post in site.posts %}
+    {% assign cur_year = post.date | date: '%Y' %}
+
+    {% if cur_year != last_year %}
+      {% unless forloop.first %}</ul>{% endunless %}
+      <div class="year">{{ cur_year }}</div>
+      <ul>
+      {% assign last_year = cur_year %}
+    {% endif %}
+
+    <li>
+      <span class="a-date">{{ post.date | date: '%m-%d' }}</span>
+      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+    </li>
+
+    {% if forloop.last %}</ul>{% endif %}
+  {% endfor %}
+</div>

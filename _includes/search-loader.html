@@ -1,0 +1,46 @@
+<!--
+  Jekyll Simple Search loader
+  See: <https://github.com/christian-fei/Simple-Jekyll-Search>
+-->
+
+{% capture result_elem %}
+  <article>
+    <h2><a href="{url}">{title}</a></h2>
+    <div class="post-meta">
+      <span>{categories}</span>
+      <span>{tags}</span>
+    </div>
+    <p>{content}</p>
+  </article>
+{% endcapture %}
+
+{% capture not_found %}
+  <p class="mt-5">{{ site.data.locales[include.lang].search.no_results | default: 'No results found' }}</p>
+{% endcapture %}
+
+<script>
+  {% comment %} Note: dependent library will be loaded in `js-selector.html` {% endcomment %}
+  document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('search-input');
+    const results = document.getElementById('search-results');
+    if (!input || !results || typeof SimpleJekyllSearch === 'undefined') {
+      return;
+    }
+    SimpleJekyllSearch({
+      searchInput: input,
+      resultsContainer: results,
+      json: '{{ '/assets/js/data/search.json' | relative_url }}',
+      searchResultTemplate: '{{ result_elem | strip_newlines }}',
+      noResultsText: '{{ not_found | strip_newlines }}',
+      templateMiddleware: function(prop, value, template) {
+        if (prop === 'categories' && value === '') {
+          return '';
+        }
+        if (prop === 'tags' && value === '') {
+          return '';
+        }
+        return `<span><i class="fa-fw fa-tag"></i> ${value}</span>`;
+      }
+    });
+  });
+</script>
