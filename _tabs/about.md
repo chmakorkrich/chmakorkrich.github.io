@@ -28,6 +28,4 @@ i spend most of my times learning about offensive security and web apps, along w
 
 
 ### HackTheBox Profile
-<a href="https://app.hackthebox.com/users/1644296" target="_blank">
-  <img src="https://www.hackthebox.eu/badge/image/1644296" alt="HackTheBox Badge" style="display: block; margin: 0 auto 0 0;" />
-</a>
+[![HTB Badge](https://www.htbbadge.tech/api/badge?user=1644296)](https://app.hackthebox.com/public/users/1644296)
