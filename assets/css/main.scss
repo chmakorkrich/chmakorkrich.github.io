@@ -1428,16 +1428,50 @@ main#main {
 
   .content { font-size: 17px; line-height: 1.7; }
 
-  /* tighter code blocks on phones */
+  /* compact, responsive code blocks on phones */
+  .content div.highlighter-rouge {
+    width: 100%;
+    margin: 1rem 0;
+  }
+
+  .content .highlight {
+    max-height: 380px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .content .highlight .rouge-code pre,
   .content .highlight .rouge-gutter pre,
   .content pre.highlight {
     font-size: 11px;
-    line-height: 1.55;
+    line-height: 1.48;
   }
-  .content .highlight table.rouge-table td.rouge-gutter { padding: 12px 0 12px 14px; }
-  .content .highlight .rouge-code pre { padding: 12px 14px; }
-  .content .code-header { height: 30px; padding: 0 12px; }
+
+  .content .highlight table.rouge-table td.rouge-gutter {
+    padding: 8px 0 8px 6px;
+  }
+
+  .content .highlight .rouge-gutter pre {
+    padding: 0 6px 0 0;
+  }
+
+  .content .highlight .rouge-code pre {
+    padding: 8px 10px;
+  }
+
+  .content .code-header {
+    height: 28px;
+    padding: 0 10px;
+  }
+
+  .content .code-header span {
+    font-size: 10px;
+  }
+
+  .content .code-header button {
+    font-size: 11px;
+    padding: 2px;
+  }
 
   .post-nav { grid-template-columns: 1fr; }
 
